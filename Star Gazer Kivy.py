@@ -1,4 +1,4 @@
-
+# 
 
 import urllib
 import urllib.request
@@ -122,6 +122,7 @@ class Star_Gazer(App):
         price1 = self.txt2.text
         market1 = self.txt3.text
         crop = str(crop1).lower().strip()
+        crop = crop.title()
         price = str(price1).lower().strip()
         market = str(market1).lower().strip()
         self.layout.clear_widgets()
@@ -133,7 +134,7 @@ class Star_Gazer(App):
         
                 
               
-        if crop == 'corn':
+        if crop == 'Corn':
 
           with urllib.request.urlopen("https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=4&VarCode=8&Date=09/01/2018&CommName=Maize%20/%20%E0%B2%AE%E0%B3%86%E0%B2%95%E0%B3%8D%E0%B2%95%E0%B3%86%E0%B2%9C%E0%B3%8B%E0%B2%B3&VarName=Hybrid/Local%20/%20%E0%B2%B9%E0%B3%88%E0%B2%AC%E0%B3%8D%E0%B2%B0%E0%B2%BF%E0%B2%A1%E0%B3%8D%20%E0%B2%B8%E0%B3%8D%E0%B2%A5%E0%B2%B3%E0%B3%80%E0%B2%AF") as url:
              data_page = url.read()
@@ -147,20 +148,63 @@ class Star_Gazer(App):
   
        
           if market in value_list and market != '':
-            index_value = value_list.index(market)
-                  
-            final = float(value_list[index_value + 5])
-            print(final / 100)
-            str_final = str(final / 100  - final / 100 *.238)
-            output_label = TextInput(text='Your Selling Price:' + str_final, font_size = '40sp')
-            self.layout.add_widget(output_label)
+                  index_value = value_list.index(market)          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]  
+                        final = float(value_list[index_value + 5])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp',size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                  else:
+                        final = float(value_list[index_value + 5])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp',size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+
+                                          
           else:
-            final = int(value_list[5])
-            str_final = str( final / 100 - final / 100 *.238)
-            output_label = TextInput(text='Your Selling Price:' + str_final, font_size = '40sp')
-            self.layout.add_widget(output_label)
-            print(final / 100)
-        elif crop == 'red':
+
+          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]  
+                        final = int(value_list[5])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp',size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+                  else:
+                        final = int(value_list[5])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp',size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+
+        elif crop == 'Red':
             with urllib.request.urlopen("https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=71&Date=18/01/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Red%20/%20%E0%B2%95%E0%B3%86%E0%B2%82%E0%B2%AA%E0%B3%81") as url:
                 data_page = url.read()
 
@@ -171,20 +215,64 @@ class Star_Gazer(App):
                 final_value = cleanhtml(str(farmer_value))
                 value_list.append(final_value)
             if market in value_list and market != '':
-                  index_value = value_list.index(market)
-                        
-                  final = float(value_list[index_value + 5])
-                  print(final / 100)
-                  str_final = str( final / 100 *.238)
-                  output_label = TextInput(text='Your Selling Price: ' + str_final, font_size = '40sp')
-                  self.layout.add_widget(output_label)
+                  index_value = value_list.index(market)          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]  
+                        final = float(value_list[index_value + 5])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                  else:
+                        final = float(value_list[index_value + 5])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+
+                                          
             else:
-                  final = int(value_list[5])
-                  str_final = str( final / 100 - final / 100 *.238)
-                  output_label = TextInput(text='Your Selling Price: ' + str_final, font_size = '40sp')
-                  self.layout.add_widget(output_label)
-                  print(final / 100)
-        elif crop == 'wheat':
+
+          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]  
+                        final = int(value_list[5])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+                  else:
+                        final = int(value_list[5])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+
+        elif crop == 'Wheat':
+           
             with urllib.request.urlopen("https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=1&VarCode=7&Date=09/01/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Bansi%20/%20%E0%B2%AC%E0%B2%A8%E0%B3%8D%E0%B2%B8%E0%B2%BF") as url:
                 data_page = url.read()
 
@@ -196,23 +284,64 @@ class Star_Gazer(App):
                 value_list.append(final_value)
        
             if market in value_list and market != '':
-                  index_value = value_list.index(market)
-                        
-                  final = float(value_list[index_value + 7])
-                  print(final / 100 - 6)
-                  str_final = str(final / 100 -  final / 100 *.238) 
-                  output_label = TextInput(text='Your Selling Price: ' + str_final, font_size = '40sp')
-                  self.layout.add_widget(output_label)
+                  index_value = value_list.index(market)          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]  
+                        final = float(value_list[index_value + 5])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                  else:
+                        final = float(value_list[index_value + 5])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+
+                                          
             else:
-                  final = int(value_list[7])
-                  str_final = str(final / 100 - final / 100 *.238)
-                  output_label = TextInput(text='Your Selling Price: ' + str_final, font_size = '40sp')
-                  self.layout.add_widget(output_label)
-                  print(final / 100)
-            
+
+          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]  
+                        final = int(value_list[5])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+                  else:
+                        final = int(value_list[5])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
 
 
-        elif crop == 'lemon':
+        elif crop == 'Lemon':
             with urllib.request.urlopen("https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=180&VarCode=1&Date=09/01/2018&CommName=Lime%20(Lemon)%20/%20%E0%B2%A8%E0%B2%BF%E0%B2%82%E0%B2%AC%E0%B3%86%E0%B2%B9%E0%B2%A3%E0%B3%8D%E0%B2%A3%E0%B3%81&VarName=Lime%20(Lemon)%20/%20%E0%B2%A8%E0%B2%BF%E0%B2%82%E0%B2%AC%E0%B3%86%E0%B2%B9%E0%B2%A3%E0%B3%8D%E0%B2%A3%E0%B3%81") as url:
                 data_page = url.read()
         
@@ -223,20 +352,63 @@ class Star_Gazer(App):
                 final_value = cleanhtml(str(farmer_value))
                 value_list.append(final_value)
             if market in value_list and market != '':
-                  index_value = value_list.index(market)
-                        
-                  final = float(value_list[index_value + 5])
-                  print(final / 100)
-                  str_final = str( final / 100 - final / 100 *.238)
-                  output_label = TextInput(text='Your Selling Price: ' + str_final, font_size = '40sp')
-                  self.layout.add_widget(output_label)
+                  index_value = value_list.index(market)          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]  
+                        final = float(value_list[index_value + 5])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                  else:
+                        final = float(value_list[index_value + 5])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+
+                                          
             else:
-                  final = int(value_list[5])
-                  str_final = str( final / 100 - final / 100 *.238)
-                  output_label = TextInput(text='Your Selling Price: ' + str_final, font_size = '40sp')
-                  self.layout.add_widget(output_label)
-                  print(final / 100)
-        elif crop == 'navane':
+
+          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]  
+                        final = int(value_list[5])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+                  else:
+                        final = int(value_list[5])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+
+        elif crop == 'Navane':
             with urllib.request.urlopen("https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=121&VarCode=1&Date=09/01/2018&CommName=Navane%20/%20%E0%B2%A8%E0%B2%B5%E0%B2%A3%E0%B3%86&VarName=Navane%20Hybrid%20/%20%E0%B2%A8%E0%B2%B5%E0%B2%A3%E0%B3%86%20%E0%B2%B9%E0%B3%88%E0%B2%AC%E0%B3%8D%E0%B2%B0%E0%B2%BF%E0%B2%A1%E0%B3%8D") as url:
                 data_page = url.read()
         
@@ -247,24 +419,64 @@ class Star_Gazer(App):
                 final_value = cleanhtml(str(farmer_value))
                 value_list.append(final_value)
             if market in value_list and market != '':
-                  index_value = value_list.index(market)
-                        
-                  final = float(value_list[index_value + 5])
-                  print(final / 100)
-                  str_final = str( final / 100 - final / 100 *.238)
-                  self.layout.clear_widgets()
-                  output_label = TextInput(text='Your Selling Price: ' + str_final, font_size = '40sp')
-      
-                  self.layout.add_widget(output_label)
+                  index_value = value_list.index(market)          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]  
+                        final = float(value_list[index_value + 5])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                  else:
+                        final = float(value_list[index_value + 5])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+
+                                          
             else:
-                  final = int(value_list[5])
-                  str_final = str( final / 100 - final / 100 *.238)
-                  output_label = TextInput(text='Your Selling Price: ' + str_final, font_size = '40sp')
-                  self.layout.clear_widgets()
-                  self.layout.add_widget(output_label)
-                  print(final / 100)
+
+          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]  
+                        final = int(value_list[5])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+                  else:
+                        final = int(value_list[5])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+
         else:
-            output_label = TextInput(text='You have likely misspelled the name of your crop or have not input a crop', font_size = '40sp')
+            output_label = TextInput(text='You have likely misspelled the name of your crop or have not input a crop', font_size = '40sp', size_hint = [1,.8])
             self.layout.add_widget(output_label)
             
             print('You have likely misspelled the name of your crop or have not input a crop')
