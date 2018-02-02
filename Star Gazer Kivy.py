@@ -1,4 +1,5 @@
-# Copyrighted -- All intellectual property of Arnav Adulla
+# Copyrighted -- All intellectual property of Arnav Adulla --
+# I permit the use of the code, but you are not allowed to take it to the market
 
 import urllib
 import urllib.request
