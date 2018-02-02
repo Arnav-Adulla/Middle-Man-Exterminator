@@ -1,4 +1,4 @@
-# 
+# Copyrighted -- All intellectual property of Arnav Adulla
 
 import urllib
 import urllib.request
