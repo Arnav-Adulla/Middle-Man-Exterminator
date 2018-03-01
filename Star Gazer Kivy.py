@@ -1,5 +1,5 @@
-# Copyrighted -- All intellectual property of Arnav Adulla --
-# I permit the use of the code, but you are not allowed to take it to the market
+
+# I permit the use of my code do whatever you want.
 
 import urllib
 import urllib.request
@@ -18,11 +18,11 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.modalview import ModalView
 import kivy
-
+import ssl
 from kivy.uix.image import Image
 from kivy.app import App
 from kivy.uix.button import Label
- 
+gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
 def cleanhtml(raw_html):
       cleanr = re.compile('<.*?>')
       cleantext = re.sub(cleanr, '', raw_html)
@@ -66,7 +66,7 @@ class Star_Gazer(App):
         
  
         self.layout2.add_widget(self.btn1)
-        self.btn2 = Button(text="Save",  background_color = [0.09, 0.41, 1, 1.5], size_hint = [0.48,0.48],pos=[405,50],
+        self.btn2 = Button(text="Check",  background_color = [0.09, 0.41, 1, 1.5], size_hint = [0.48,0.48],pos=[405,50],
                         font_size = '30sp', font_name = 'Calibri')
         self.btn2.bind(on_press=self.save)
         self.layout2.add_widget(self.btn2)
@@ -109,7 +109,7 @@ class Star_Gazer(App):
         
  
         layout2.add_widget(btn1)
-        btn2 = Button(text="Save",  background_color = [0.09, 0.41, 1, 1.5], size_hint = [0.48,0.48],pos=[405,50],
+        btn2 = Button(text="Check",  background_color = [0.09, 0.41, 1, 1.5], size_hint = [0.48,0.48],pos=[405,50],
                         font_size = '30sp', font_name = 'Calibri')
         btn2.bind(on_press=self.save)
         layout2.add_widget(btn2)
@@ -150,7 +150,7 @@ class Star_Gazer(App):
        
           if market in value_list and market != '':
                   index_value = value_list.index(market)          
-                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
                       data_page = url.read()
                   soup = BeautifulSoup(data_page)
                   values = soup.findAll('td')
@@ -163,24 +163,27 @@ class Star_Gazer(App):
 
                   if crop in profit_list:
                         index = profit_list.index(crop)
-                        profit = profit_list[index + 7]  
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
                         final = float(value_list[index_value + 5])
                         print(final / 100)
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp',size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "             Today's Profit: " + profit, font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                   else:
                         final = float(value_list[index_value + 5])
                         print(final / 100)
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp',size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "              Unsure about today's profit", font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
 
                                           
           else:
 
           
-                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
                       data_page = url.read()
                   soup = BeautifulSoup(data_page)
                   values = soup.findAll('td')
@@ -192,18 +195,22 @@ class Star_Gazer(App):
                       profit_list.append(final_value)
                   if crop in profit_list:
                         index = profit_list.index(crop)
-                        profit = profit_list[index + 7]  
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
                         final = int(value_list[5])
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp',size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "          Today's Profit: " + profit, font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                         print(final / 100)
                   else:
                         final = int(value_list[5])
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp',size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "          Unsure about today's profit", font_size = '40sp',size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                         print(final / 100)
+      
 
         elif crop == 'Red':
             with urllib.request.urlopen("https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=71&Date=18/01/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Red%20/%20%E0%B2%95%E0%B3%86%E0%B2%82%E0%B2%AA%E0%B3%81") as url:
@@ -217,7 +224,7 @@ class Star_Gazer(App):
                 value_list.append(final_value)
             if market in value_list and market != '':
                   index_value = value_list.index(market)          
-                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
                       data_page = url.read()
                   soup = BeautifulSoup(data_page)
                   values = soup.findAll('td')
@@ -230,24 +237,27 @@ class Star_Gazer(App):
 
                   if crop in profit_list:
                         index = profit_list.index(crop)
-                        profit = profit_list[index + 7]  
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
                         final = float(value_list[index_value + 5])
                         print(final / 100)
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                   else:
                         final = float(value_list[index_value + 5])
                         print(final / 100)
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp',size_hint=[1,.8])
                         self.layout.add_widget(output_label)
 
                                           
             else:
 
           
-                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
                       data_page = url.read()
                   soup = BeautifulSoup(data_page)
                   values = soup.findAll('td')
@@ -259,16 +269,92 @@ class Star_Gazer(App):
                       profit_list.append(final_value)
                   if crop in profit_list:
                         index = profit_list.index(crop)
-                        profit = profit_list[index + 7]  
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
                         final = int(value_list[5])
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp',size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                         print(final / 100)
                   else:
                         final = int(value_list[5])
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp',size_hint=[1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+        #cotton
+        elif crop == 'Cotton':
+            with urllib.request.urlopen("https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=15&VarCode=5&Date=10/02/2018&CommName=Cotton%20/%20%E0%B2%B9%E0%B2%A4%E0%B3%8D%E0%B2%A4%E0%B2%BF&VarName=Suyodhar%20/%20%E0%B2%B8%E0%B3%81%E0%B2%AF%E0%B3%8B%E0%B2%A7%E0%B2%B0%E0%B3%8D") as url:
+                data_page = url.read()
+
+            soup = BeautifulSoup(data_page)
+            values = soup.findAll('td')
+            value_list = []
+            for farmer_value in values[12:1000]:
+                final_value = cleanhtml(str(farmer_value))
+                value_list.append(final_value)
+            if market in value_list and market != '':
+                  index_value = value_list.index(market)          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
+                        final = float(value_list[index_value + 7])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint=[1,.8])
+                        self.layout.add_widget(output_label)
+                  else:
+                        final = float(value_list[index_value + 7])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp',size_hint=[1,.8])
+                        self.layout.add_widget(output_label)
+
+                                          
+            else:
+
+          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
+                        final = int(value_list[7])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp',size_hint=[1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+                  else:
+                        final = int(value_list[7])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp',size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                         print(final / 100)
 
@@ -286,7 +372,7 @@ class Star_Gazer(App):
        
             if market in value_list and market != '':
                   index_value = value_list.index(market)          
-                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
                       data_page = url.read()
                   soup = BeautifulSoup(data_page)
                   values = soup.findAll('td')
@@ -299,24 +385,27 @@ class Star_Gazer(App):
 
                   if crop in profit_list:
                         index = profit_list.index(crop)
-                        profit = profit_list[index + 7]  
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
                         final = float(value_list[index_value + 5])
                         print(final / 100)
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                   else:
                         final = float(value_list[index_value + 5])
                         print(final / 100)
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
 
                                           
             else:
 
           
-                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context=gcontext) as url:
                       data_page = url.read()
                   soup = BeautifulSoup(data_page)
                   values = soup.findAll('td')
@@ -328,16 +417,19 @@ class Star_Gazer(App):
                       profit_list.append(final_value)
                   if crop in profit_list:
                         index = profit_list.index(crop)
-                        profit = profit_list[index + 7]  
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
                         final = int(value_list[5])
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp',size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                         print(final / 100)
                   else:
                         final = int(value_list[5])
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                         print(final / 100)
 
@@ -354,7 +446,7 @@ class Star_Gazer(App):
                 value_list.append(final_value)
             if market in value_list and market != '':
                   index_value = value_list.index(market)          
-                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
                       data_page = url.read()
                   soup = BeautifulSoup(data_page)
                   values = soup.findAll('td')
@@ -367,24 +459,27 @@ class Star_Gazer(App):
 
                   if crop in profit_list:
                         index = profit_list.index(crop)
-                        profit = profit_list[index + 7]  
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
                         final = float(value_list[index_value + 5])
                         print(final / 100)
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp',size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                   else:
                         final = float(value_list[index_value + 5])
                         print(final / 100)
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
 
                                           
             else:
 
           
-                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
                       data_page = url.read()
                   soup = BeautifulSoup(data_page)
                   values = soup.findAll('td')
@@ -396,16 +491,19 @@ class Star_Gazer(App):
                       profit_list.append(final_value)
                   if crop in profit_list:
                         index = profit_list.index(crop)
-                        profit = profit_list[index + 7]  
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
                         final = int(value_list[5])
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp',size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                         print(final / 100)
                   else:
                         final = int(value_list[5])
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                         print(final / 100)
 
@@ -421,7 +519,7 @@ class Star_Gazer(App):
                 value_list.append(final_value)
             if market in value_list and market != '':
                   index_value = value_list.index(market)          
-                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
                       data_page = url.read()
                   soup = BeautifulSoup(data_page)
                   values = soup.findAll('td')
@@ -434,24 +532,27 @@ class Star_Gazer(App):
 
                   if crop in profit_list:
                         index = profit_list.index(crop)
-                        profit = profit_list[index + 7]  
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
                         final = float(value_list[index_value + 5])
                         print(final / 100)
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                   else:
                         final = float(value_list[index_value + 5])
                         print(final / 100)
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
 
                                           
             else:
 
           
-                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx") as url:
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
                       data_page = url.read()
                   soup = BeautifulSoup(data_page)
                   values = soup.findAll('td')
@@ -463,47 +564,121 @@ class Star_Gazer(App):
                       profit_list.append(final_value)
                   if crop in profit_list:
                         index = profit_list.index(crop)
-                        profit = profit_list[index + 7]  
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
                         final = int(value_list[5])
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                         print(final / 100)
                   else:
                         final = int(value_list[5])
                         str_final = str( final / 100 - final / 100 *.238)
-                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp', size_hint = [1,.8])
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp', size_hint=[1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+        #barley
+        elif crop == 'Barley':
+            with urllib.request.urlopen("https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=15&VarCode=5&Date=10/02/2018&CommName=Cotton%20/%20%E0%B2%B9%E0%B2%A4%E0%B3%8D%E0%B2%A4%E0%B2%BF&VarName=Suyodhar%20/%20%E0%B2%B8%E0%B3%81%E0%B2%AF%E0%B3%8B%E0%B2%A7%E0%B2%B0%E0%B3%8D") as url:
+                data_page = url.read()
+        
+            soup = BeautifulSoup(data_page)
+            values = soup.findAll('td')
+            value_list = []
+            for farmer_value in values[12:1000]:
+                final_value = cleanhtml(str(farmer_value))
+                value_list.append(final_value)
+            if market in value_list and market != '':
+                  index_value = value_list.index(market)          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
+                        final = float(value_list[index_value + 7])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint=[1,.8])
+                        self.layout.add_widget(output_label)
+                  else:
+                        final = float(value_list[index_value + 7])
+                        print(final / 100)
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "   Unsure about today's profit", font_size = '40sp', size_hint=[1,.8])
+                        self.layout.add_widget(output_label)
+
+                                          
+            else:
+
+          
+                  with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
+                      data_page = url.read()
+                  soup = BeautifulSoup(data_page)
+                  values = soup.findAll('td')
+                  profit_list = []
+                  for farmer_value in values[23:10000]:
+                      final_value = cleanhtml(str(farmer_value))
+                      final_value = ' '.join(final_value.split())
+
+                      profit_list.append(final_value)
+                  if crop in profit_list:
+                        index = profit_list.index(crop)
+                        profit = profit_list[index + 7]
+                        profit = int(profit)
+                        profit = profit/100
+                        profit = str(profit)
+                        final = int(value_list[7])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Today's Profit: " + profit, font_size = '40sp', size_hint=[1,.8])
+                        self.layout.add_widget(output_label)
+                        print(final / 100)
+                  else:
+                        final = int(value_list[7])
+                        str_final = str( final / 100 - final / 100 *.238)
+                        output_label = TextInput(text='Your Selling Price: ' + str_final + "    Unsure about today's profit", font_size = '40sp', size_hint=[1,.8])
                         self.layout.add_widget(output_label)
                         print(final / 100)
 
         else:
-            output_label = TextInput(text='You have likely misspelled the name of your crop or have not input a crop', font_size = '40sp', size_hint = [1,.8])
+            output_label = TextInput(text="You have likely misspelled the name of your crop or it's a new crop click save to add that crop to data base", font_size = '40sp', size_hint=[1,.8])
             self.layout.add_widget(output_label)
             
             print('You have likely misspelled the name of your crop or have not input a crop')
+            
         #write out string or integer to list considering all possible crop names
         button_back = Button(text = 'Back',background_color = [0.09, 0.41, 1, 1.5], size_hint = [1,0.48], pos=[12,50],
                       font_size = '50sp', font_name = 'Calibri'
                              )
         button_back.bind(on_press = self.back)
         self.layout.add_widget(button_back)
-        if price == "":
-            return
-        if price != float or int:
-              return
-            
-        
-        
      
-
         
     #save button command
     def save(self, button2):
-      crop = self.txt1.text.strip()
-      price = self.txt2.text.strip()
+      crop1 = self.txt1.text
+      price1 = self.txt2.text
+      crop = str(crop1)
+      crop = crop.title()
+      price = str(price1)
+      print(crop)
+            
       if crop == "":
             self.layout.clear_widgets()
-            output_label = TextInput(text= 'No crop has been inputted',font_size = '40sp')
+            output_label = TextInput(text= 'No crop has been input please press back and enter a crop',font_size = '40sp')
             self.layout.add_widget(output_label)
             button_back = Button(text = 'Back',background_color = [0.09, 0.41, 1, 1.5], size_hint = [1,0.48], pos=[12,50],
                       font_size = '50sp', font_name = 'Calibri'
@@ -511,31 +686,122 @@ class Star_Gazer(App):
             button_back.bind(on_press = self.back)
             self.layout.add_widget(button_back)
             return
-
-      for dkey in item_dict.keys() :
-            sum1 = 0.0
-      for i in item_dict[dkey] :
-            if price == int or float:
-                  sum1 = sum1 + float(i)
-
-
-            avg = sum1/len(item_dict[dkey])
-      self.layout.clear_widgets()
-      output_label = TextInput(text= 'Farmer average is: ' + str(avg),font_size = '40sp')
-      self.layout.add_widget(output_label)
-      button_back = Button(text = 'Back',background_color = [0.09, 0.41, 1, 1.5], size_hint = [1,0.48], pos=[12,50],
+      if price == "":
+            self.layout.clear_widgets()
+            output_label = TextInput(text= 'No price has been input please press back and enter a price',font_size = '40sp')
+            self.layout.add_widget(output_label)
+            button_back = Button(text = 'Back',background_color = [0.09, 0.41, 1, 1.5], size_hint = [1,0.48], pos=[12,50],
                       font_size = '50sp', font_name = 'Calibri'
                              )
-      button_back.bind(on_press = self.back)
-      self.layout.add_widget(button_back)
-      data_directory = open('Values.txt', 'a')
-      data_directory.writelines('\n')
-      data_directory.write(str(dkey))
-      data_directory.write('+$+')
-      data_directory.write(str(avg))
-      data_directory.close()
-        
+            button_back.bind(on_press = self.back)
+            self.layout.add_widget(button_back)
+            return
+      else:
+            with urllib.request.urlopen("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx", context = gcontext) as url:
+                        data_page = url.read()
+            soup = BeautifulSoup(data_page)
+            values = soup.findAll('td')
+            profit_list = []
+            for farmer_value in values[23:10000]:
+                  final_value = cleanhtml(str(farmer_value))
+                  final_value = ' '.join(final_value.split())
 
+                  profit_list.append(final_value)
+            if crop in profit_list:
+                  profit = profit_list.index(crop)
+                  profit = profit_list[profit + 5]
+                  profit = float(profit)
+                  profit = profit / 100
+                  price = float(price)
+                  profit = price - profit
+                  if profit < 0:
+                        
+                        profit = str(profit)
+                        
+                        
+                        self.layout.clear_widgets()
+                        output_label = TextInput(text= 'Your Profit: ' + profit + ' you need to sell for a higher price',font_size = '40sp')
+                        self.layout.add_widget(output_label)
+                        button_back = Button(text = 'Back',background_color = [0.09, 0.41, 1, 1.5], size_hint = [1,0.48], pos=[12,50],
+                                  font_size = '50sp', font_name = 'Calibri'
+                                         )
+                        button_back.bind(on_press = self.back)
+                        self.layout.add_widget(button_back)
+                  else:
+                        profit = str(profit)
+                        
+                        
+                        self.layout.clear_widgets()
+                        output_label = TextInput(text= 'Your Profit: ' + profit + ' you need to sell for a lower price',font_size = '40sp')
+                        self.layout.add_widget(output_label)
+                        button_back = Button(text = 'Back',background_color = [0.09, 0.41, 1, 1.5], size_hint = [1,0.48], pos=[12,50],
+                                  font_size = '50sp', font_name = 'Calibri'
+                                         )
+                        button_back.bind(on_press = self.back)
+                        self.layout.add_widget(button_back)
+            else:
+                  self.layout.clear_widgets()
+                  output_label = TextInput(text= 'Sorry ' + crop + ' is not in our database',font_size = '40sp')
+                  self.layout.add_widget(output_label)
+                  button_back = Button(text = 'Back',background_color = [0.09, 0.41, 1, 1.5], size_hint = [1,0.48], pos=[12,50],
+                            font_size = '50sp', font_name = 'Calibri'
+                                   )
+                  button_back.bind(on_press = self.back)
+                  self.layout.add_widget(button_back)
+
+      
+      '''
+      if crop in item_dict.keys() :
+            sum1 = 0.0
+            for i in item_dict[crop] :
+                  sum1 = sum1 + float(i)
+
+            avg = sum1/len(item_dict[crop])
+      
+            
+            output_label = TextInput(text= 'Farmer average is: ' + str(avg),font_size = '40sp')
+         
+            button_back = Button(text = 'Back',background_color = [0.09, 0.41, 1, 1.5], size_hint = [1,0.48], pos=[12,50],
+                            font_size = '50sp', font_name = 'Calibri'
+                                   )
+            button_back.bind(on_press = self.back)
+            self.layout.clear_widgets()
+            self.layout.add_widget(output_label)
+            self.layout.add_widget(button_back)
+            
+      elif crop not in item_dict.keys():
+            if price == "":
+                  self.layout.clear_widgets()
+                  output_label = TextInput(text= "Input a price this is a new value to the data set",font_size = '40sp')
+               
+                  button_back = Button(text = 'Back',background_color = [0.09, 0.41, 1, 1.5], size_hint = [1,0.48], pos=[12,50],
+                                  font_size = '50sp', font_name = 'Calibri'
+                                         )
+                  button_back.bind(on_press = self.back)
+                  self.layout.clear_widgets()
+                  self.layout.add_widget(output_label)
+                  self.layout.add_widget(button_back)
+                  return
+            else:
+                  self.layout.clear_widgets()
+                  output_label = TextInput(text= "New crop price: " + str(price),font_size = '40sp')
+               
+                  button_back = Button(text = 'Back',background_color = [0.09, 0.41, 1, 1.5], size_hint = [1,0.48], pos=[12,50],
+                                  font_size = '50sp', font_name = 'Calibri'
+                                         )
+                  button_back.bind(on_press = self.back)
+                  self.layout.clear_widgets()
+                  self.layout.add_widget(output_label)
+                  self.layout.add_widget(button_back)
+                  data_directory = open('Values.txt', 'a')
+                  data_directory.writelines('\n')
+                  data_directory.write(crop)
+                  data_directory.write('+$+')
+                  data_directory.write(str(price))
+                  data_directory.close()
+'''   
+        
+'''
 fo = open('Values.txt', 'r')
 complete_list = fo.read().split('\n')
 fo.close()
@@ -548,9 +814,11 @@ for item in complete_list:
 
 for dkey in item_dict.keys() :
     print('dkey ', dkey, 'list items ' , item_dict[dkey])
-
+'''
 
 Star_gazer = Star_Gazer()
 Star_gazer.run()
  
+
+
 
