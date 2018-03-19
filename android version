@@ -1,0 +1,1607 @@
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.database.CrossProcessCursor;
+import android.media.Image;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.annotation.RequiresApi;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+
+import org.jsoup.Connection;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.security.KeyStore;
+import java.util.ArrayList;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+
+public class Screen2 extends AppCompatActivity {
+    EditText crop, market ,price;
+    String Market;
+    TextView result;
+    ProgressDialog mProgressDialog;
+    Integer index;
+    HashMap<String, String> final_value;
+    String error_message;
+    ArrayList<HashMap<String, String>> arraylist;
+    ArrayList<HashMap<String, String>> ncdex_values;
+    String Not_Crop = "";
+    ImageView Wheat;
+    ScrollView container;
+    ImageView background;
+
+
+    @Override
+
+    protected void onCreate(Bundle savedInstanceState)  {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_screen2);
+        crop = (EditText) findViewById(R.id.Crop);
+        result = (TextView) findViewById(R.id.Result);
+        market = (EditText) findViewById(R.id.Market);
+        price = (EditText) findViewById(R.id.Price);
+        final Button submit_button = (Button) findViewById(R.id.button3);
+        final Button check_button = (Button) findViewById(R.id.button4);
+        Wheat = (ImageView) findViewById(R.id.Wheat);
+        ImageView bansi = (ImageView) findViewById(R.id.bansi);
+        ImageView banana = (ImageView) findViewById(R.id.banana);
+        ImageView navane = (ImageView) findViewById(R.id.navane);
+        ImageView apple = (ImageView) findViewById(R.id.apple);
+        ImageView papaya = (ImageView) findViewById(R.id.papya);
+        ImageView brokenrice = (ImageView) findViewById(R.id.brokenrice);
+        ImageView orange = (ImageView) findViewById(R.id.orange);
+        ImageView pineapple = (ImageView) findViewById(R.id.pineapple);
+        ImageView lemon = (ImageView) findViewById(R.id.lemon);
+        ImageView coca = (ImageView) findViewById(R.id.coca);
+        ImageView bajra = (ImageView) findViewById(R.id.Bajra);
+        ImageView corn = (ImageView) findViewById(R.id.maize);
+        ImageView rice = (ImageView) findViewById(R.id.Rice);
+        ImageView grapes = (ImageView) findViewById(R.id.grapes);
+        ImageView watermelon = (ImageView) findViewById(R.id.watermelon);
+        ImageView soyabeen = (ImageView) findViewById(R.id.soyabeen);
+        ImageView pomagranate = (ImageView) findViewById(R.id.pomagranate);
+        ImageView ragi = (ImageView) findViewById(R.id.Ragi);
+        ImageView paddy = (ImageView) findViewById(R.id.paddy);
+        background = (ImageView) findViewById(R.id.background);
+        container = (ScrollView) findViewById(R.id.Container);
+
+        Wheat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "wheat";
+                crop.setText(Not_Crop);
+            }
+        });
+        bansi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "bansi";
+                crop.setText(Not_Crop);
+            }
+        });
+        banana.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "banana";
+                crop.setText(Not_Crop);
+            }
+        });
+        apple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "apple";
+                crop.setText(Not_Crop);
+            }
+        });
+        ragi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "ragi";
+                crop.setText(Not_Crop);
+            }
+        });
+        rice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "rice";
+                crop.setText(Not_Crop);
+            }
+        });
+        brokenrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "broken rice";
+                crop.setText(Not_Crop);
+            }
+        });
+        coca.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "coca";
+                crop.setText(Not_Crop);
+            }
+        });
+        lemon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "lemon";
+                crop.setText(Not_Crop);
+            }
+        });
+        corn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "corn";
+                crop.setText(Not_Crop);
+            }
+        });
+        navane.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "navane";
+                crop.setText(Not_Crop);
+            }
+        });
+        grapes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "grapes";
+                crop.setText(Not_Crop);
+            }
+        });
+        pomagranate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "pomagranate";
+                crop.setText(Not_Crop);
+            }
+        });
+        orange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "orange";
+                crop.setText(Not_Crop);
+            }
+        });
+        paddy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "paddy";
+                crop.setText(Not_Crop);
+            }
+        });
+        watermelon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "watermelon";
+                crop.setText(Not_Crop);
+            }
+        });
+        soyabeen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "soyabeen";
+                crop.setText(Not_Crop);
+            }
+        });
+        pineapple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "pineapple";
+                crop.setText(Not_Crop);
+            }
+        });
+        bajra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "bajra";
+                crop.setText(Not_Crop);
+            }
+        });
+        corn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button submit_button = (Button) findViewById(R.id.button3);
+                Button check_button = (Button) findViewById(R.id.button4);
+                TextView text_crop = (TextView) findViewById(R.id.text_crop);
+                TextView text_price = (TextView) findViewById(R.id.text_price);
+                TextView text_market = (TextView) findViewById(R.id.text_market);
+                Button back = (Button) findViewById(R.id.back);
+                ImageButton background = findViewById(R.id.imageButton);
+                RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+                text_crop.setVisibility(View.VISIBLE);
+                text_market.setVisibility(View.VISIBLE);
+                text_price.setVisibility(View.VISIBLE);
+                submit_button.setVisibility(View.VISIBLE);
+                check_button.setVisibility(View.VISIBLE);
+                crop.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                market.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                Not_Crop = "corn";
+                crop.setText(Not_Crop);
+            }
+        });
+
+
+
+
+
+    }
+
+    public static String upperCaseFirst(String value) {
+
+        // Convert String to char array.
+        char[] array = value.toCharArray();
+        // Modify first element in array.
+        array[0] = Character.toUpperCase(array[0]);
+        // Return string.
+        return new String(array);
+    }
+    public void searcher(View view){
+        container.setVisibility(View.GONE);
+        RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel) ;
+        search.setVisibility(View.GONE);
+        Button submit_button = (Button) findViewById(R.id.button3);
+        Button check_button = (Button) findViewById(R.id.button4);
+        TextView text_crop = (TextView) findViewById(R.id.text_crop);
+        TextView text_price = (TextView) findViewById(R.id.text_price);
+        TextView text_market = (TextView) findViewById(R.id.text_market);
+        Button back = (Button) findViewById(R.id.back);
+
+        text_crop.setVisibility(View.VISIBLE);
+        text_market.setVisibility(View.VISIBLE);
+        text_price.setVisibility(View.VISIBLE);
+        submit_button.setVisibility(View.VISIBLE);
+        check_button.setVisibility(View.VISIBLE);
+        crop.setVisibility(View.VISIBLE);
+        price.setVisibility(View.VISIBLE);
+        market.setVisibility(View.VISIBLE);
+
+    }
+
+
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+    public void Check(View view){
+        String Crop = crop.getText().toString().toLowerCase();
+        Crop = upperCaseFirst(Crop);
+
+
+
+
+
+
+        Market = market.getText().toString().toUpperCase();
+        if (Crop.equals("Lemon")){
+
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=4&VarCode=8&Date=09/01/2018&CommName=lemon%20/%20%E0%B2%AE%E0%B3%86%E0%B2%95%E0%B3%8D%E0%B2%95%E0%B3%86%E0%B2%9C%E0%B3%8B%E0%B2%B3&VarName=Hybrid/Local%20/%20%E0%B2%B9%E0%B3%88%E0%B2%AC%E0%B3%8D%E0%B2%B0%E0%B2%BF%E0%B2%A1%E0%B3%8D%20%E0%B2%B8%E0%B3%8D%E0%B2%A5%E0%B2%B3%E0%B3%80%E0%B2%AF";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Wheat")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=1&VarCode=7&Date=02/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Bansi%20/%20%E0%B2%AC%E0%B2%A8%E0%B3%8D%E0%B2%B8%E0%B2%BF";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Corn")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=7&Date=02/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Bansi%20/%20%E0%B2%AC%E0%B2%A8%E0%B3%8D%E0%B2%B8%E0%B2%BF";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Maize")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=7&Date=02/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Bansi%20/%20%E0%B2%AC%E0%B2%A8%E0%B3%8D%E0%B2%B8%E0%B2%BF";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Rice")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=3&VarCode=43&Date=02/03/2018&CommName=Rice%20/%20%E0%B2%85%E0%B2%95%E0%B3%8D%E0%B2%95%E0%B2%BF&VarName=Coarse%20/%20%E0%B2%A6%E0%B2%AA%E0%B3%8D%E0%B2%AA";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Sweet Corn")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=4&VarCode=36&Date=03/03/2018&CommName=Maize%20/%20%E0%B2%AE%E0%B3%86%E0%B2%95%E0%B3%8D%E0%B2%95%E0%B3%86%E0%B2%9C%E0%B3%8B%E0%B2%B3&VarName=Sweet%20Corn%20(For%20Biscuits)%20/%20%E0%B2%B8%E0%B3%8D%E0%B2%B5%E0%B3%80%E0%B2%9F%E0%B3%8D%20%E0%B2%95%E0%B2%BE%E0%B2%B0%E0%B2%A8%E0%B3%8D";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Bansi Wheat")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=7&Date=03/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Bansi%20/%20%E0%B2%AC%E0%B2%A8%E0%B3%8D%E0%B2%B8%E0%B2%BF";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Bansi")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=7&Date=03/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Bansi%20/%20%E0%B2%AC%E0%B2%A8%E0%B3%8D%E0%B2%B8%E0%B2%BF";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Mil Wheat")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=82&Date=03/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Mill%20Wheat%20/%20%E0%B2%97%E0%B2%BF%E0%B2%B0%E0%B2%A3%E0%B2%BF%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Navane")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=121&VarCode=1&Date=07/03/2018&CommName=Navane%20/%20%E0%B2%A8%E0%B2%B5%E0%B2%A3%E0%B3%86&VarName=Navane%20Hybrid%20/%20%E0%B2%A8%E0%B2%B5%E0%B2%A3%E0%B3%86%20%E0%B2%B9%E0%B3%88%E0%B2%AC%E0%B3%8D%E0%B2%B0%E0%B2%BF%E0%B2%A1%E0%B3%8D";
+            new case4(url).execute();
+        }
+        else if (Crop.equals("Mil")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=82&Date=03/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Mill%20Wheat%20/%20%E0%B2%97%E0%B2%BF%E0%B2%B0%E0%B2%A3%E0%B2%BF%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF";
+            new JsoupListView_casethree(url).execute();
+        }else if (Crop.equals("Paddy")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=2&VarCode=1&Date=03/03/2018&CommName=Paddy%20/%20%E0%B2%AD%E0%B2%A4%E0%B3%8D%E0%B2%A4&VarName=Paddy%20/%20%E0%B2%AD%E0%B2%A4%E0%B3%8D%E0%B2%A4-1";
+            new case4(url).execute();
+        }
+        else if (Crop.equals("Mustard")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=12&VarCode=999&Date=03/03/2018&CommName=Mustard%20/%20%E0%B2%B8%E0%B2%BE%E0%B2%B8%E0%B3%81%E0%B2%B5%E0%B3%86&VarName=Other%20/%20%E0%B2%87%E0%B2%A4%E0%B2%B0%E0%B3%86";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Mustard")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=12&VarCode=999&Date=03/03/2018&CommName=Mustard%20/%20%E0%B2%B8%E0%B2%BE%E0%B2%B8%E0%B3%81%E0%B2%B5%E0%B3%86&VarName=Other%20/%20%E0%B2%87%E0%B2%A4%E0%B2%B0%E0%B3%86";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Bajra Hybrid")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=28&VarCode=8&Date=03/03/2018&CommName=Bajra%20/%20%E0%B2%B8%E0%B2%9C%E0%B3%8D%E0%B2%9C%E0%B3%86&VarName=Hybrid%20/%20%E0%B2%B9%E0%B3%88%E0%B2%AC%E0%B3%8D%E0%B2%B0%E0%B2%BF%E0%B2%A1%E0%B3%8D";
+            new case4(url).execute();
+        }
+        else if (Crop.equals("Bajra")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=28&VarCode=8&Date=03/03/2018&CommName=Bajra%20/%20%E0%B2%B8%E0%B2%9C%E0%B3%8D%E0%B2%9C%E0%B3%86&VarName=Hybrid%20/%20%E0%B2%B9%E0%B3%88%E0%B2%AC%E0%B3%8D%E0%B2%B0%E0%B2%BF%E0%B2%A1%E0%B3%8D";
+            new case4(url).execute();
+
+        }
+        else if (Crop.equals("Ragi")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=30&VarCode=999&Date=03/03/2018&CommName=Ragi%20/%20%E0%B2%B0%E0%B2%BE%E0%B2%97%E0%B2%BF&VarName=Other%20/%20%E0%B2%87%E0%B2%A4%E0%B2%B0%E0%B3%86";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Suyodhar")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=15&VarCode=5&Date=03/03/2018&CommName=Cotton%20/%20%E0%B2%B9%E0%B2%A4%E0%B3%8D%E0%B2%A4%E0%B2%BF&VarName=Suyodhar%20/%20%E0%B2%B8%E0%B3%81%E0%B2%AF%E0%B3%8B%E0%B2%A7%E0%B2%B0%E0%B3%8D";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Apple")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=17&VarCode=23&Date=03/03/2018&CommName=Apple%20/%20%E0%B2%B8%E0%B3%87%E0%B2%AC%E0%B3%81&VarName=Apple%20/%20%E0%B2%B8%E0%B3%87%E0%B2%AC%E0%B3%81";
+            new case4(url).execute();
+        }
+        else if (Crop.equals("Orange")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=18&VarCode=6&Date=03/03/2018&CommName=Orange%20/%20%E0%B2%95%E0%B2%BF%E0%B2%A4%E0%B3%8D%E0%B2%A4%E0%B2%B3%E0%B3%86&VarName=Orange%20/%20%E0%B2%95%E0%B2%BF%E0%B2%A4%E0%B3%8D%E0%B2%A4%E0%B2%B3%E0%B3%86";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Pomagranate")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=190&VarCode=1&Date=03/03/2018&CommName=Pomagranate%20/%20%E0%B2%A6%E0%B2%BE%E0%B2%B3%E0%B2%BF%E0%B2%82%E0%B2%AC%E0%B3%86&VarName=Pomogranate%20/%20%E0%B2%A6%E0%B2%BE%E0%B2%B3%E0%B2%BF%E0%B2%82%E0%B2%AC%E0%B3%86";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Grapes")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=22&VarCode=2&Date=03/03/2018&CommName=Grapes%20/%20%E0%B2%A6%E0%B3%8D%E0%B2%B0%E0%B2%BE%E0%B2%95%E0%B3%8D%E0%B2%B7%E0%B2%BF&VarName=Black%20/%20%E0%B2%95%E0%B2%AA%E0%B3%8D%E0%B2%AA%E0%B3%81";
+            new case4(url).execute();
+        }
+        else if (Crop.equals("Banana")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=19&VarCode=5&Date=03/03/2018&CommName=Banana%20/%20%E0%B2%AC%E0%B2%BE%E0%B2%B3%E0%B3%86%E0%B2%B9%E0%B2%A3%E0%B3%8D%E0%B2%A3%E0%B3%81&VarName=Medium%20/%20%E0%B2%AE%E0%B2%A7%E0%B3%8D%E0%B2%AF%E0%B2%AE";
+            new case4(url).execute();
+        }
+        else if (Crop.equals("Soyabeen")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=13&VarCode=1&Date=03/03/2018&CommName=Soyabeen%20/%20%E0%B2%B8%E0%B3%8B%E0%B2%AF%E0%B2%BE%E0%B2%AC%E0%B2%BF%E0%B2%A8%E0%B3%8D&VarName=Yellow%20/%20%E0%B2%B9%E0%B2%B3%E0%B2%A6%E0%B2%BF";
+            new case4(url).execute();
+        }
+        else if (Crop.equals("broken rice")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=3&VarCode=247&Date=03/03/2018&CommName=Rice%20/%20%E0%B2%85%E0%B2%95%E0%B3%8D%E0%B2%95%E0%B2%BF&VarName=Broken%20Rice%20/%20%E0%B2%A8%E0%B3%81%E0%B2%9A%E0%B3%8D%E0%B2%9A%E0%B2%95%E0%B3%8D%E0%B2%95%E0%B2%BF";
+            new case4(url).execute();
+        }
+        else if (Crop.equals("Pine Apple")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=21&VarCode=1&Date=03/03/2018&CommName=Pine%20Apple%20/%20%E0%B2%85%E0%B2%A8%E0%B2%BE%E0%B2%A8%E0%B2%B8%E0%B3%8D&VarName=Pine%20Apple%20/%20%E0%B2%85%E0%B2%A8%E0%B2%BE%E0%B2%A8%E0%B2%B8%E0%B3%8D";
+            new case4(url).execute();
+        }
+        else if (Crop.equals("Watermelon")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=73&VarCode=1&Date=07/03/2018&CommName=Water%20Melon%20/%20%E0%B2%95%E0%B2%B2%E0%B3%8D%E0%B2%B2%E0%B2%82%E0%B2%97%E0%B2%A1%E0%B2%BF&VarName=Water%20Melon%20/%20%E0%B2%95%E0%B2%B2%E0%B3%8D%E0%B2%B2%E0%B2%82%E0%B2%97%E0%B2%A1%E0%B2%BF";
+            new JsoupListView_casethree(url).execute();
+        }
+        else if (Crop.equals("Coca")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=140&VarCode=7&Date=07/03/2018&CommName=Arecanut%20/%20%E0%B2%85%E0%B2%A1%E0%B2%BF%E0%B2%95%E0%B3%86&VarName=Coca%20/%20%E0%B2%95%E0%B3%8B%E0%B2%95";
+            new case4(url).execute();
+        }
+        else if (Crop.equals("Pineapple")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=21&VarCode=1&Date=03/03/2018&CommName=Pine%20Apple%20/%20%E0%B2%85%E0%B2%A8%E0%B2%BE%E0%B2%A8%E0%B2%B8%E0%B3%8D&VarName=Pine%20Apple%20/%20%E0%B2%85%E0%B2%A8%E0%B2%BE%E0%B2%A8%E0%B2%B8%E0%B3%8D";
+            new case4(url).execute();
+        }
+        else if (Crop.equals("Papaya")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=72&VarCode=1&Date=03/03/2018&CommName=Papaya%20/%20%E0%B2%AA%E0%B2%AA%E0%B3%8D%E0%B2%AA%E0%B2%BE%E0%B2%AF%E0%B2%BF&VarName=Papaya%20/%20%E0%B2%AA%E0%B2%AA%E0%B3%8D%E0%B2%AA%E0%B2%BE%E0%B2%AF%E0%B2%BF";
+            new case4(url).execute();
+        }
+
+        else{
+
+            Button submit_button = (Button) findViewById(R.id.button3);
+            Button check_button = (Button) findViewById(R.id.button4);
+            TextView text_crop = (TextView) findViewById(R.id.text_crop);
+            TextView text_price = (TextView) findViewById(R.id.text_price);
+            TextView text_market = (TextView) findViewById(R.id.text_market);
+            Button back = (Button) findViewById(R.id.back);
+
+            text_crop.setVisibility(View.GONE);
+            text_market.setVisibility(View.GONE);
+            text_price.setVisibility(View.GONE);
+            submit_button.setVisibility(View.GONE);
+            check_button.setVisibility(View.GONE);
+            crop.setVisibility(View.GONE);
+            price.setVisibility(View.GONE);
+            market.setVisibility(View.GONE);
+            back.setVisibility(View.VISIBLE);
+            background.setVisibility(View.VISIBLE);
+            result.setText("You have misspelled the name of your crop, or " + " your crop is " + " in not in our database. Please click back to again use the product.");
+        }
+    }
+    public void Back(View view) {
+        crop.setText("");
+        mProgressDialog.setTitle("Going back");
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.show();
+        RelativeLayout search = (RelativeLayout) findViewById(R.id.search_rel);
+        Button submit_button = (Button) findViewById(R.id.button3);
+        Button check_button = (Button) findViewById(R.id.button4);
+        TextView text_crop = (TextView) findViewById(R.id.text_crop);
+        TextView text_price = (TextView) findViewById(R.id.text_price);
+        TextView text_market = (TextView) findViewById(R.id.text_market);
+        Button back = (Button) findViewById(R.id.back);
+        text_crop.setVisibility(View.GONE);
+        text_market.setVisibility(View.GONE);
+        text_price.setVisibility(View.GONE);
+        submit_button.setVisibility(View.GONE);
+        check_button.setVisibility(View.GONE);
+        crop.setVisibility(View.GONE);
+        price.setVisibility(View.GONE);
+        market.setVisibility(View.GONE);
+        back.setVisibility(View.GONE);
+        background.setVisibility(View.GONE);
+        container.setVisibility(View.VISIBLE);
+        search.setVisibility(View.VISIBLE);
+
+        result.setText("");
+        mProgressDialog.dismiss();
+
+
+    }
+
+
+
+    public void Switcher(View view) {
+        String Crop = crop.getText().toString().toLowerCase();
+        Crop = upperCaseFirst(Crop);
+
+
+
+
+        if (Crop.equals("Lemon")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=4&VarCode=8&Date=09/01/2018&CommName=lemon%20/%20%E0%B2%AE%E0%B3%86%E0%B2%95%E0%B3%8D%E0%B2%95%E0%B3%86%E0%B2%9C%E0%B3%8B%E0%B2%B3&VarName=Hybrid/Local%20/%20%E0%B2%B9%E0%B3%88%E0%B2%AC%E0%B3%8D%E0%B2%B0%E0%B2%BF%E0%B2%A1%E0%B3%8D%20%E0%B2%B8%E0%B3%8D%E0%B2%A5%E0%B2%B3%E0%B3%80%E0%B2%AF";
+            new JsoupListView(url).execute();
+
+        }
+        else if (Crop.equals("Navane")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=121&VarCode=1&Date=07/03/2018&CommName=Navane%20/%20%E0%B2%A8%E0%B2%B5%E0%B2%A3%E0%B3%86&VarName=Navane%20Hybrid%20/%20%E0%B2%A8%E0%B2%B5%E0%B2%A3%E0%B3%86%20%E0%B2%B9%E0%B3%88%E0%B2%AC%E0%B3%8D%E0%B2%B0%E0%B2%BF%E0%B2%A1%E0%B3%8D";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Coca")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=140&VarCode=7&Date=07/03/2018&CommName=Arecanut%20/%20%E0%B2%85%E0%B2%A1%E0%B2%BF%E0%B2%95%E0%B3%86&VarName=Coca%20/%20%E0%B2%95%E0%B3%8B%E0%B2%95";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Watermelon")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=73&VarCode=1&Date=07/03/2018&CommName=Water%20Melon%20/%20%E0%B2%95%E0%B2%B2%E0%B3%8D%E0%B2%B2%E0%B2%82%E0%B2%97%E0%B2%A1%E0%B2%BF&VarName=Water%20Melon%20/%20%E0%B2%95%E0%B2%B2%E0%B3%8D%E0%B2%B2%E0%B2%82%E0%B2%97%E0%B2%A1%E0%B2%BF";
+            new JsoupListView(url).execute();
+        }
+        else if (Crop.equals("Wheat")){
+
+           String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=1&VarCode=7&Date=02/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Bansi%20/%20%E0%B2%AC%E0%B2%A8%E0%B3%8D%E0%B2%B8%E0%B2%BF";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Corn")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=7&Date=02/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Bansi%20/%20%E0%B2%AC%E0%B2%A8%E0%B3%8D%E0%B2%B8%E0%B2%BF";
+            new JsoupListView(url).execute();
+        }
+        else if (Crop.equals("Maize")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=7&Date=02/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Bansi%20/%20%E0%B2%AC%E0%B2%A8%E0%B3%8D%E0%B2%B8%E0%B2%BF";
+            new JsoupListView(url).execute();
+        }
+        else if (Crop.equals("Paddy")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=2&VarCode=1&Date=07/03/2018&CommName=Paddy%20/%20%E0%B2%AD%E0%B2%A4%E0%B3%8D%E0%B2%A4&VarName=Paddy%20/%20%E0%B2%AD%E0%B2%A4%E0%B3%8D%E0%B2%A4-1";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Rice")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=3&VarCode=43&Date=02/03/2018&CommName=Rice%20/%20%E0%B2%85%E0%B2%95%E0%B3%8D%E0%B2%95%E0%B2%BF&VarName=Coarse%20/%20%E0%B2%A6%E0%B2%AA%E0%B3%8D%E0%B2%AA";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Sweet Corn")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=4&VarCode=36&Date=03/03/2018&CommName=Maize%20/%20%E0%B2%AE%E0%B3%86%E0%B2%95%E0%B3%8D%E0%B2%95%E0%B3%86%E0%B2%9C%E0%B3%8B%E0%B2%B3&VarName=Sweet%20Corn%20(For%20Biscuits)%20/%20%E0%B2%B8%E0%B3%8D%E0%B2%B5%E0%B3%80%E0%B2%9F%E0%B3%8D%20%E0%B2%95%E0%B2%BE%E0%B2%B0%E0%B2%A8%E0%B3%8D";
+            new JsoupListView(url).execute();
+        }
+        else if (Crop.equals("Bansi Wheat")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=7&Date=03/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Bansi%20/%20%E0%B2%AC%E0%B2%A8%E0%B3%8D%E0%B2%B8%E0%B2%BF";
+            new JsoupListView(url).execute();
+        }
+        else if (Crop.equals("Bansi")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=7&Date=03/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Bansi%20/%20%E0%B2%AC%E0%B2%A8%E0%B3%8D%E0%B2%B8%E0%B2%BF";
+            new JsoupListView(url).execute();
+        }
+        else if (Crop.equals("Mil Wheat")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=82&Date=03/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Mill%20Wheat%20/%20%E0%B2%97%E0%B2%BF%E0%B2%B0%E0%B2%A3%E0%B2%BF%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF";
+            new JsoupListView(url).execute();
+        }
+        else if (Crop.equals("Mil")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=1&VarCode=82&Date=03/03/2018&CommName=Wheat%20/%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF&VarName=Mill%20Wheat%20/%20%E0%B2%97%E0%B2%BF%E0%B2%B0%E0%B2%A3%E0%B2%BF%20%E0%B2%97%E0%B3%8B%E0%B2%A7%E0%B2%BF";
+            new JsoupListView(url).execute();
+        }else if (Crop.equals("Paddy")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=2&VarCode=1&Date=03/03/2018&CommName=Paddy%20/%20%E0%B2%AD%E0%B2%A4%E0%B3%8D%E0%B2%A4&VarName=Paddy%20/%20%E0%B2%AD%E0%B2%A4%E0%B3%8D%E0%B2%A4-1";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Mustard")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=12&VarCode=999&Date=03/03/2018&CommName=Mustard%20/%20%E0%B2%B8%E0%B2%BE%E0%B2%B8%E0%B3%81%E0%B2%B5%E0%B3%86&VarName=Other%20/%20%E0%B2%87%E0%B2%A4%E0%B2%B0%E0%B3%86";
+            new JsoupListView(url).execute();
+        }
+        else if (Crop.equals("Mustard")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=12&VarCode=999&Date=03/03/2018&CommName=Mustard%20/%20%E0%B2%B8%E0%B2%BE%E0%B2%B8%E0%B3%81%E0%B2%B5%E0%B3%86&VarName=Other%20/%20%E0%B2%87%E0%B2%A4%E0%B2%B0%E0%B3%86";
+            new JsoupListView(url).execute();
+        }
+        else if (Crop.equals("Bajra Hybrid")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=28&VarCode=8&Date=03/03/2018&CommName=Bajra%20/%20%E0%B2%B8%E0%B2%9C%E0%B3%8D%E0%B2%9C%E0%B3%86&VarName=Hybrid%20/%20%E0%B2%B9%E0%B3%88%E0%B2%AC%E0%B3%8D%E0%B2%B0%E0%B2%BF%E0%B2%A1%E0%B3%8D";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Bajra")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=28&VarCode=8&Date=03/03/2018&CommName=Bajra%20/%20%E0%B2%B8%E0%B2%9C%E0%B3%8D%E0%B2%9C%E0%B3%86&VarName=Hybrid%20/%20%E0%B2%B9%E0%B3%88%E0%B2%AC%E0%B3%8D%E0%B2%B0%E0%B2%BF%E0%B2%A1%E0%B3%8D";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Ragi")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=30&VarCode=999&Date=03/03/2018&CommName=Ragi%20/%20%E0%B2%B0%E0%B2%BE%E0%B2%97%E0%B2%BF&VarName=Other%20/%20%E0%B2%87%E0%B2%A4%E0%B2%B0%E0%B3%86";
+            new JsoupListView(url).execute();
+        }
+        else if (Crop.equals("Suyodhar")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=15&VarCode=5&Date=03/03/2018&CommName=Cotton%20/%20%E0%B2%B9%E0%B2%A4%E0%B3%8D%E0%B2%A4%E0%B2%BF&VarName=Suyodhar%20/%20%E0%B2%B8%E0%B3%81%E0%B2%AF%E0%B3%8B%E0%B2%A7%E0%B2%B0%E0%B3%8D";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Apple")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=17&VarCode=23&Date=03/03/2018&CommName=Apple%20/%20%E0%B2%B8%E0%B3%87%E0%B2%AC%E0%B3%81&VarName=Apple%20/%20%E0%B2%B8%E0%B3%87%E0%B2%AC%E0%B3%81";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Orange")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=18&VarCode=6&Date=03/03/2018&CommName=Orange%20/%20%E0%B2%95%E0%B2%BF%E0%B2%A4%E0%B3%8D%E0%B2%A4%E0%B2%B3%E0%B3%86&VarName=Orange%20/%20%E0%B2%95%E0%B2%BF%E0%B2%A4%E0%B3%8D%E0%B2%A4%E0%B2%B3%E0%B3%86";
+            new JsoupListView(url).execute();
+        }
+        else if (Crop.equals("Pomagranate")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=190&VarCode=1&Date=03/03/2018&CommName=Pomagranate%20/%20%E0%B2%A6%E0%B2%BE%E0%B2%B3%E0%B2%BF%E0%B2%82%E0%B2%AC%E0%B3%86&VarName=Pomogranate%20/%20%E0%B2%A6%E0%B2%BE%E0%B2%B3%E0%B2%BF%E0%B2%82%E0%B2%AC%E0%B3%86";
+            new JsoupListView(url).execute();
+        }
+        else if (Crop.equals("Grapes")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=22&VarCode=2&Date=03/03/2018&CommName=Grapes%20/%20%E0%B2%A6%E0%B3%8D%E0%B2%B0%E0%B2%BE%E0%B2%95%E0%B3%8D%E0%B2%B7%E0%B2%BF&VarName=Black%20/%20%E0%B2%95%E0%B2%AA%E0%B3%8D%E0%B2%AA%E0%B3%81";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Banana")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=19&VarCode=5&Date=03/03/2018&CommName=Banana%20/%20%E0%B2%AC%E0%B2%BE%E0%B2%B3%E0%B3%86%E0%B2%B9%E0%B2%A3%E0%B3%8D%E0%B2%A3%E0%B3%81&VarName=Medium%20/%20%E0%B2%AE%E0%B2%A7%E0%B3%8D%E0%B2%AF%E0%B2%AE";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Soyabeen")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=13&VarCode=1&Date=03/03/2018&CommName=Soyabeen%20/%20%E0%B2%B8%E0%B3%8B%E0%B2%AF%E0%B2%BE%E0%B2%AC%E0%B2%BF%E0%B2%A8%E0%B3%8D&VarName=Yellow%20/%20%E0%B2%B9%E0%B2%B3%E0%B2%A6%E0%B2%BF";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("broken rice")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Var&CommCode=3&VarCode=247&Date=03/03/2018&CommName=Rice%20/%20%E0%B2%85%E0%B2%95%E0%B3%8D%E0%B2%95%E0%B2%BF&VarName=Broken%20Rice%20/%20%E0%B2%A8%E0%B3%81%E0%B2%9A%E0%B3%8D%E0%B2%9A%E0%B2%95%E0%B3%8D%E0%B2%95%E0%B2%BF";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Pine Apple")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=21&VarCode=1&Date=03/03/2018&CommName=Pine%20Apple%20/%20%E0%B2%85%E0%B2%A8%E0%B2%BE%E0%B2%A8%E0%B2%B8%E0%B3%8D&VarName=Pine%20Apple%20/%20%E0%B2%85%E0%B2%A8%E0%B2%BE%E0%B2%A8%E0%B2%B8%E0%B3%8D";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Pineapple")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=21&VarCode=1&Date=03/03/2018&CommName=Pine%20Apple%20/%20%E0%B2%85%E0%B2%A8%E0%B2%BE%E0%B2%A8%E0%B2%B8%E0%B3%8D&VarName=Pine%20Apple%20/%20%E0%B2%85%E0%B2%A8%E0%B2%BE%E0%B2%A8%E0%B2%B8%E0%B3%8D";
+            new JsoupListView_casetwo(url).execute();
+        }
+        else if (Crop.equals("Papaya")){
+
+            String url = "https://www.krishimaratavahini.kar.nic.in/MainPage/DailyMrktPriceRep2.aspx?Rep=Com&CommCode=72&VarCode=1&Date=03/03/2018&CommName=Papaya%20/%20%E0%B2%AA%E0%B2%AA%E0%B3%8D%E0%B2%AA%E0%B2%BE%E0%B2%AF%E0%B2%BF&VarName=Papaya%20/%20%E0%B2%AA%E0%B2%AA%E0%B3%8D%E0%B2%AA%E0%B2%BE%E0%B2%AF%E0%B2%BF";
+            new JsoupListView_casetwo(url).execute();
+        }
+
+
+
+
+        else{
+            mProgressDialog.setTitle("Going back");
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.show();
+            Crop = crop.getText().toString().toLowerCase();
+            Button submit_button = (Button) findViewById(R.id.button3);
+            Button check_button = (Button) findViewById(R.id.button4);
+            TextView text_crop = (TextView) findViewById(R.id.text_crop);
+            TextView text_price = (TextView) findViewById(R.id.text_price);
+            TextView text_market = (TextView) findViewById(R.id.text_market);
+            Button back = (Button) findViewById(R.id.back);
+            text_crop.setVisibility(View.GONE);
+            text_market.setVisibility(View.GONE);
+            text_price.setVisibility(View.GONE);
+            submit_button.setVisibility(View.GONE);
+            check_button.setVisibility(View.GONE);
+            crop.setVisibility(View.GONE);
+            price.setVisibility(View.GONE);
+            market.setVisibility(View.GONE);
+            back.setVisibility(View.VISIBLE);
+            background.setVisibility(View.VISIBLE);
+            mProgressDialog.dismiss();
+            result.setText("You have misspelled the name of your crop, or " + Crop + " in not in our database. Please enter your crop again");
+        }
+    }
+    private class JsoupListView extends AsyncTask<Void, Void, Void> {
+        String url=null;
+        public JsoupListView(String url) {
+            this.url=url;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDialog = new ProgressDialog(Screen2.this);
+            mProgressDialog.setTitle("Fetching Crop Details");
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.show();
+            Button submit_button = (Button) findViewById(R.id.button3);
+            Button check_button = (Button) findViewById(R.id.button4);
+            TextView text_crop = (TextView) findViewById(R.id.text_crop);
+            TextView text_price = (TextView) findViewById(R.id.text_price);
+            TextView text_market = (TextView) findViewById(R.id.text_market);
+            Button back = (Button) findViewById(R.id.back);
+            text_crop.setVisibility(View.GONE);
+            text_market.setVisibility(View.GONE);
+            text_price.setVisibility(View.GONE);
+            submit_button.setVisibility(View.GONE);
+            check_button.setVisibility(View.GONE);
+            crop.setVisibility(View.GONE);
+            price.setVisibility(View.GONE);
+            market.setVisibility(View.GONE);
+            back.setVisibility(View.VISIBLE);
+            background.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            arraylist = new ArrayList<HashMap<String, String>>();
+            ncdex_values = new ArrayList<HashMap<String, String>>();
+            Document ncdex_doc = null;
+            try {
+                ncdex_doc = Jsoup.connect("https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx").get();
+
+                for (Element table : ncdex_doc.select("table")){
+                    for (Element row : table.select("tr")) {
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+                        // Identify all the table cell's(td)
+                        Elements tds = row.select("td");
+
+
+
+                        // Retrive Jsoup Elements
+                        // Get the first td
+                        map.put("Crop", tds.get(0).text());
+
+                        // Get the second td
+                        map.put("Profit", tds.get(7).text());
+                        // Set all extracted Jsoup Elements into the array
+                        ncdex_values.add(map);
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // get ncdex values
+
+
+            try {
+                // Connect to the Website URL
+                Document doc = Jsoup.connect(url).get();
+
+
+                // Identify Table Class "worldpopulation"
+                for (Element table : doc.select("table[id=_ctl0_content5_Table1]")) {
+
+                    // Identify all the table row's(tr)
+                    for (Element row : table.select("tr:gt(0)")) {
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+                        // Identify all the table cell's(td)
+                        Elements tds = row.select("td");
+
+
+
+                        // Retrive Jsoup Elements
+                        // Get the first td
+                        map.put("Market Place", tds.get(0).text());
+                        map.put("Maximum Price", tds.get(4).text());
+                        map.put("Arrivals", tds.get(2).text());
+                        // Get the second td
+                        map.put("Modal Price", tds.get(5).text());
+                        // Set all extracted Jsoup Elements into the array
+                        arraylist.add(map);
+                    }
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void mresult) {
+            result.setText("");
+            String Crop = crop.getText().toString();
+
+            if(ncdex_values.contains(Crop)) {
+                Integer index2 = ncdex_values.indexOf(Crop);
+                Integer index = index2 + 1;
+
+
+                HashMap<String, String> ncdex_value = ncdex_values.get(index);
+                if (market.getText().toString().trim().length() <= 0) {
+                    Integer final_value_of_price = Integer.parseInt(arraylist.get(0).get("Modal Price"));
+                    double final_value_of_crop = final_value_of_price / 100;
+                    String final_value_to_farmer = String.valueOf(final_value_of_crop);
+
+                    Log.e("row", arraylist.get(0).get("Modal Price"));
+                    result.setText("Average price of " + Crop + " across all markets is " + final_value_to_farmer + " rupees per kg. Today's daily profit for" + Crop + " is " + ncdex_value);
+                } else {
+                    for (int i = 0; i < arraylist.size(); i++) {
+                        if ((market.getText().toString()).equalsIgnoreCase(arraylist.get(i).get("Market Place"))) {
+                            Integer final_value_of_price = Integer.parseInt(arraylist.get(i).get("Modal Price"));
+                            double final_value_of_crop = final_value_of_price / 100;
+                            String final_value_to_farmer = String.valueOf(final_value_of_crop);
+                            result.setText("Average price of " + Crop + " for " + arraylist.get(i).get("Market Place") + " is " + final_value_to_farmer + " rupees per kg. Today's daily profit for" + Crop + "is " + ncdex_value);
+                        }
+
+
+                    }
+                }
+            }
+            else{
+                if(market.getText().toString().trim().length()<=0) {
+                    Integer final_value_of_price = Integer.parseInt(arraylist.get(0).get("Modal Price"));
+                    double final_value_of_crop = final_value_of_price / 100 ;
+                    String final_value_to_farmer = String.valueOf(final_value_of_crop);
+                    Integer maximum = Integer.parseInt(arraylist.get(0).get("Maximum Price"));
+                    Integer arrivals = Integer.parseInt(arraylist.get(0).get("Arrivals"));
+
+                    String profit = String.valueOf(arrivals);
+
+                    Log.e("row", arraylist.get(0).get("Modal Price"));
+                    if (arrivals < 500) {
+                        result.setText("Average price of " + Crop  + " is " + final_value_to_farmer + " rupees per kg. Today is a good time to sell the amount of arrivals for " + Crop + " is " + profit);
+                    }
+                    else {
+                        result.setText("Average price of " + Crop + " is " + final_value_to_farmer + " rupees per kg. Today is a bad time to sell the amount of arrivals for " + Crop + " is " + profit);
+                    }
+                }else{
+                    for(int i=0;i<arraylist.size();i++){
+                        if((market.getText().toString()).equalsIgnoreCase(arraylist.get(i).get("Market Place"))){
+
+                            Integer final_value_of_price = Integer.parseInt(arraylist.get(i).get("Modal Price"));
+                            double final_value_of_crop = final_value_of_price / 100;
+                            String final_value_to_farmer = String.valueOf(final_value_of_crop);
+                            Integer maximum = Integer.parseInt(arraylist.get(i).get("Maximum Price"));
+                            Integer arrivals = Integer.parseInt(arraylist.get(i).get("Arrivals"));
+                            String profit = String.valueOf(arrivals);
+                            if (arrivals < 500) {
+                                result.setText("Average price of " + Crop  + " is " + final_value_to_farmer + " rupees per kg. Today is a good time to sell the amount of arrivals for " + Crop + " is " + profit);
+                            }
+                            else {
+                                result.setText("Average price of " + Crop + " is " + final_value_to_farmer + " rupees per kg. Today is a bad time to sell the amount of arrivals for " + Crop + " is " + profit);
+                            }
+                        }
+
+
+                    }
+                }
+            }
+                if(result.length()<=0){
+                    result.setText("We did not find a market" );
+                }
+              mProgressDialog.dismiss();
+            }
+
+        }
+    private class JsoupListView_casetwo extends AsyncTask<Void, Void, Void> {
+        String url = null;
+
+        public JsoupListView_casetwo(String url) {
+            this.url = url;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDialog = new ProgressDialog(Screen2.this);
+            mProgressDialog.setTitle("Fetching Crop Details");
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.show();
+            Button submit_button = (Button) findViewById(R.id.button3);
+            Button check_button = (Button) findViewById(R.id.button4);
+            TextView text_crop = (TextView) findViewById(R.id.text_crop);
+            TextView text_price = (TextView) findViewById(R.id.text_price);
+            TextView text_market = (TextView) findViewById(R.id.text_market);
+            Button back = (Button) findViewById(R.id.back);
+            text_crop.setVisibility(View.GONE);
+            text_market.setVisibility(View.GONE);
+            text_price.setVisibility(View.GONE);
+            submit_button.setVisibility(View.GONE);
+            check_button.setVisibility(View.GONE);
+            crop.setVisibility(View.GONE);
+            price.setVisibility(View.GONE);
+            market.setVisibility(View.GONE);
+            back.setVisibility(View.VISIBLE);
+            background.setVisibility(View.VISIBLE);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            arraylist = new ArrayList<HashMap<String, String>>();
+
+            try {
+                // Connect to the Website URL
+                Document doc = Jsoup.connect(url).get();
+                // Identify Table Class "worldpopulation"
+                for (Element table : doc.select("table[id=_ctl0_content5_Table1]")) {
+
+                    // Identify all the table row's(tr)
+                    for (Element row : table.select("tr:gt(0)")) {
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+                        // Identify all the table cell's(td)
+                        Elements tds = row.select("td");
+
+
+                        // Retrive Jsoup Elements
+                        // Get the first td
+                        map.put("Market Place", tds.get(0).text());
+                        // Get the second td
+                        map.put("Modal Price", tds.get(6).text());
+                        map.put("Arrivals", tds.get(3).text());
+
+                        // Set all extracted Jsoup Elements into the array
+                        arraylist.add(map);
+                    }
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void mresult) {
+            result.setText("");
+            String Crop = crop.getText().toString();
+            if(market.getText().toString().trim().length()<=0) {
+                Integer final_value_of_price = Integer.parseInt(arraylist.get(0).get("Modal Price"));
+                double final_value_of_crop = final_value_of_price / 100;
+                String final_value_to_farmer = String.valueOf(final_value_of_crop);
+                Integer arrivals = Integer.parseInt(arraylist.get(0).get("Arrivals"));
+
+                String profit = String.valueOf(arrivals);
+
+                Log.e("row", arraylist.get(0).get("Modal Price"));
+                if (arrivals < 500) {
+                    result.setText("Average price of " + Crop  + " is " + final_value_to_farmer + " rupees per kg. Today is a good time to sell the amount of arrivals for " + Crop + " is " + profit);
+                }
+                else {
+                    result.setText("Average price of " + Crop + " is " + final_value_to_farmer + " rupees per kg. Today is a bad time to sell the amount of arrivals for " + Crop + " is " + profit);
+                }
+            }else{
+                for(int i=0;i<arraylist.size();i++){
+                    if((market.getText().toString()).equalsIgnoreCase(arraylist.get(i).get("Market Place"))){
+
+                        Integer final_value_of_price = Integer.parseInt(arraylist.get(i).get("Modal Price"));
+                        double final_value_of_crop = final_value_of_price / 100;
+                        String final_value_to_farmer = String.valueOf(final_value_of_crop);
+                        Integer arrivals = Integer.parseInt(arraylist.get(i).get("Arrivals"));
+                        String profit = String.valueOf(arrivals);
+                        if (arrivals < 500) {
+                            result.setText("Average price of " + Crop  + " is " + final_value_to_farmer + " rupees per kg. Today is a good time to sell the amount of arrivals for " + Crop + " is " + profit);
+                        }
+                        else {
+                            result.setText("Average price of " + Crop + " is " + final_value_to_farmer + " rupees per kg. Today is a bad time to sell the amount of arrivals for " + Crop + " is " + profit);
+                        }
+                    }
+
+
+                }
+            }
+            mProgressDialog.dismiss();
+        }
+    }
+
+    private class JsoupListView_casethree extends AsyncTask<Void, Void, Void> {
+        String url=null;
+        public JsoupListView_casethree(String url) {
+            this.url=url;
+        }
+
+        @Override
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDialog = new ProgressDialog(Screen2.this);
+            mProgressDialog.setTitle("Fetching Crop Details");
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.show();
+            String Crop = crop.getText().toString().toLowerCase();
+            Button submit_button = (Button) findViewById(R.id.button3);
+            Button check_button = (Button) findViewById(R.id.button4);
+            TextView text_crop = (TextView) findViewById(R.id.text_crop);
+            TextView text_price = (TextView) findViewById(R.id.text_price);
+            TextView text_market = (TextView) findViewById(R.id.text_market);
+            Button back = (Button) findViewById(R.id.back);
+            text_crop.setVisibility(View.GONE);
+            text_market.setVisibility(View.GONE);
+            text_price.setVisibility(View.GONE);
+            submit_button.setVisibility(View.GONE);
+            check_button.setVisibility(View.GONE);
+            crop.setVisibility(View.GONE);
+            price.setVisibility(View.GONE);
+            market.setVisibility(View.GONE);
+            back.setVisibility(View.VISIBLE);
+            background.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            arraylist = new ArrayList<HashMap<String, String>>();
+
+            try {
+                // Connect to the Website URL
+                Document doc = Jsoup.connect(url).get();
+                // Identify Table Class "worldpopulation"
+                for (Element table : doc.select("table[id=_ctl0_content5_Table1]")) {
+
+                    // Identify all the table row's(tr)
+                    for (Element row : table.select("tr:gt(0)")) {
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+                        // Identify all the table cell's(td)
+                        Elements tds = row.select("td");
+
+
+                        // Retrive Jsoup Elements
+                        // Get the first td
+                        map.put("Market Place", tds.get(0).text());
+                        // Get the second td
+                        map.put("Modal Price", tds.get(5).text());
+                        // Set all extracted Jsoup Elements into the array
+                        arraylist.add(map);
+                    }
+                }
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void mresult) {
+            result.setText("");
+            String Price = price.getText().toString();
+            if (isInteger(Price)) {
+                System.out.println ("It is an integer");
+
+            }
+            else{
+                result.setText("The price is not a number please go back and change the value");
+                mProgressDialog.dismiss();
+                return;
+            }
+            if(market.getText().toString().trim().length()<=0) {
+                Integer final_value_of_price = Integer.parseInt(arraylist.get(0).get("Modal Price"));
+                Integer farmer_price = Integer.parseInt(Price);
+                double final_value_of_crop = farmer_price - final_value_of_price / 100 ;
+                double Other_price = final_value_of_price / 100;
+                String string_of_other_price = String.valueOf(Other_price);
+                String final_value_to_farmer = String.valueOf(final_value_of_crop);
+
+                Log.e("row", arraylist.get(0).get("Modal Price"));
+                if(final_value_of_crop < 0){
+                    result.setText("You are loosing profit. The market price of your crop is " + string_of_other_price + " rupees per kg your loss is: " + final_value_to_farmer + " you should sell your crop for a higher price");
+                }
+                else if(final_value_of_crop > 5){
+                    result.setText("You are charging much higher than the market price. The market price of your crop is " + string_of_other_price + " rupees per kg your gain is: " + final_value_to_farmer + " you should sell your crop for a lower price");
+                }
+                else{
+                    result.setText("You are gaining profit. The market price of your crop is " + string_of_other_price + " your profit is: " + final_value_to_farmer + " keep selling your crop for this price");
+                }
+            }else{
+                for(int i=0;i<arraylist.size();i++){
+                    if((market.getText().toString()).equalsIgnoreCase(arraylist.get(i).get("Market Place"))){
+                        Integer final_value_of_price = Integer.parseInt(arraylist.get(i).get("Modal Price"));
+                        Integer farmer_price = Integer.parseInt(Price);
+                        double final_value_of_crop = final_value_of_price / 100 - farmer_price;
+                        double Other_price = final_value_of_price / 100;
+                        String string_of_other_price = String.valueOf(Other_price);
+                        String final_value_to_farmer = String.valueOf(final_value_of_crop);
+
+                        Log.e("row", arraylist.get(i).get("Modal Price"));
+                        if(final_value_of_crop < 0){
+                            result.setText("You are loosing profit. The market price of your crop is " + string_of_other_price + " your loss is per kg: " + final_value_to_farmer +  " you should sell your crop for a higher pirce");
+                        }
+                        else{
+                            result.setText("You are gaining profit. The market price of your crop is " + string_of_other_price + " your profit is per kg: " + final_value_to_farmer + " keep selling your crop for this price");
+                        }
+                    }
+
+
+                }
+            }
+            if(result.length()<=0){
+                result.setText("We did not find a market" );
+            }
+            mProgressDialog.dismiss();
+        }
+
+    }
+    private class case4 extends AsyncTask<Void, Void, Void> {
+        String url=null;
+        public case4(String url) {
+            this.url=url;
+        }
+
+        @Override
+
+        protected void onPreExecute() {
+            String Crop = crop.getText().toString();
+            super.onPreExecute();
+            mProgressDialog = new ProgressDialog(Screen2.this);
+            mProgressDialog.setTitle("Fetching Crop Details");
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.show();
+            Crop = crop.getText().toString().toLowerCase();
+            Button submit_button = (Button) findViewById(R.id.button3);
+            Button check_button = (Button) findViewById(R.id.button4);
+            TextView text_crop = (TextView) findViewById(R.id.text_crop);
+            TextView text_price = (TextView) findViewById(R.id.text_price);
+            TextView text_market = (TextView) findViewById(R.id.text_market);
+            Button back = (Button) findViewById(R.id.back);
+            text_crop.setVisibility(View.GONE);
+            text_market.setVisibility(View.GONE);
+            text_price.setVisibility(View.GONE);
+            submit_button.setVisibility(View.GONE);
+            check_button.setVisibility(View.GONE);
+            crop.setVisibility(View.GONE);
+            price.setVisibility(View.GONE);
+            market.setVisibility(View.GONE);
+            back.setVisibility(View.VISIBLE);
+            background.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            arraylist = new ArrayList<HashMap<String, String>>();
+
+            try {
+                // Connect to the Website URL
+                Document doc = Jsoup.connect(url).get();
+                // Identify Table Class "worldpopulation"
+                for (Element table : doc.select("table[id=_ctl0_content5_Table1]")) {
+
+                    // Identify all the table row's(tr)
+                    for (Element row : table.select("tr:gt(0)")) {
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+                        // Identify all the table cell's(td)
+                        Elements tds = row.select("td");
+
+
+                        // Retrive Jsoup Elements
+                        // Get the first td
+                        map.put("Market Place", tds.get(0).text());
+                        // Get the second td
+                        map.put("Modal Price", tds.get(6).text());
+                        // Set all extracted Jsoup Elements into the array
+                        arraylist.add(map);
+                    }
+                }
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void mresult) {
+            result.setText("");
+            String Price = price.getText().toString();
+            if (isInteger(Price)) {
+                System.out.println ("It is an integer");
+
+            }
+            else{
+                result.setText("The price is not a number please go back and change the value");
+                mProgressDialog.dismiss();
+                return;
+            }
+            if(market.getText().toString().trim().length()<=0) {
+                Integer final_value_of_price = Integer.parseInt(arraylist.get(0).get("Modal Price"));
+                Integer farmer_price = Integer.parseInt(Price);
+                double final_value_of_crop = farmer_price - final_value_of_price / 100 ;
+                double Other_price = final_value_of_price / 100;
+                String string_of_other_price = String.valueOf(Other_price);
+                String final_value_to_farmer = String.valueOf(final_value_of_crop);
+
+                Log.e("row", arraylist.get(0).get("Modal Price"));
+                if(final_value_of_crop < 0){
+                    result.setText("You are loosing profit. The market price of your crop is " + string_of_other_price + " rupees per kg your loss is: " + final_value_to_farmer + " you should sell your crop for a higher price");
+                }
+                else if(final_value_of_crop > 5){
+                    result.setText("You are charging much higher than the market price. The market price of your crop is " + string_of_other_price + " rupees per kg your gain is: " + final_value_to_farmer + " you should sell your crop for a lower price");
+                }
+                else{
+                    result.setText("You are gaining profit. The market price of your crop is " + string_of_other_price + " your profit is: " + final_value_to_farmer + " keep selling your crop for this price");
+                }
+            }else{
+                for(int i=0;i<arraylist.size();i++){
+                    if((market.getText().toString()).equalsIgnoreCase(arraylist.get(i).get("Market Place"))){
+                        Integer final_value_of_price = Integer.parseInt(arraylist.get(i).get("Modal Price"));
+                        Integer farmer_price = Integer.parseInt(Price);
+                        double final_value_of_crop = final_value_of_price / 100 - farmer_price;
+                        double Other_price = final_value_of_price / 100;
+                        String string_of_other_price = String.valueOf(Other_price);
+                        String final_value_to_farmer = String.valueOf(final_value_of_crop);
+
+                        Log.e("row", arraylist.get(i).get("Modal Price"));
+                        if(final_value_of_crop < 0){
+                            result.setText("You are loosing profit. The market price of your crop is " + string_of_other_price + " your loss is per kg: " + final_value_to_farmer +  " you should sell your crop for a higher pirce");
+                        }
+                        else{
+                            result.setText("You are gaining profit. The market price of your crop is " + string_of_other_price + " your profit is per kg: " + final_value_to_farmer + " keep selling your crop for this price");
+                        }
+                    }
+
+
+                }
+            }
+            if(result.length()<=0){
+                result.setText("We did not find a market" );
+            }
+            mProgressDialog.dismiss();
+        }
+
+    }
+    }
